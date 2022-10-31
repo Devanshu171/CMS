@@ -1,0 +1,21 @@
+.active {
+  color: #1890ff !important;
+  text-decoration: underline;
+}
+.ProseMirror {
+  min-height: 500px;
+  /* overflow: scroll; */
+  /* overflow-x: hidden; */
+  padding: 15px 25px;
+}
+
+.ant-upload-list-item-card-actions {
+  display: none;
+}
+
+.ant-upload-drag {
+  height: 150px !important;
+}
+.body {
+  overflow: hidden;
+}
