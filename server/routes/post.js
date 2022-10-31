@@ -3,7 +3,13 @@ import formidable from "express-formidable";
 const router = express.Router();
 
 //middleware
-import { requireSignin, isAdmin } from "../middlewares/index";
+import {
+  requireSignin,
+  isAdmin,
+  canCreateRead,
+  canUpdateDeletePost,
+  canDeleteMedia,
+} from "../middlewares/index";
 
 // controllers
 import {
@@ -17,23 +23,23 @@ import {
   removePost,
   editPost,
 } from "../controllers/post";
-router.post("/upload-image", requireSignin, isAdmin, uploadImage);
+router.post("/upload-image", requireSignin, canCreateRead, uploadImage);
 router.post(
   "/upload-image-file",
   formidable(),
   requireSignin,
-  isAdmin,
+  canCreateRead,
   uploadImageFile
 );
-router.post("/create-post", requireSignin, isAdmin, createPost);
+router.post("/create-post", requireSignin, canCreateRead, createPost);
 router.get("/posts", getPosts);
 router.get("/post/:slug", singlePost);
-router.delete("/post/:postId", requireSignin, isAdmin, removePost);
-router.put("/edit-post/:postId", requireSignin, isAdmin, editPost);
+router.delete("/post/:postId", requireSignin, canUpdateDeletePost, removePost);
+router.put("/edit-post/:postId", requireSignin, canUpdateDeletePost, editPost);
 
 // media route
 
-router.get("/media", requireSignin, isAdmin, getMedia);
-router.delete("/media/:id", requireSignin, isAdmin, removeMedia);
+router.get("/media", requireSignin, canCreateRead, getMedia);
+router.delete("/media/:id", requireSignin, canDeleteMedia, removeMedia);
 
 export default router;

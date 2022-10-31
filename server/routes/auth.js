@@ -1,5 +1,5 @@
 import express from "express";
-import { requireSignin, isAdmin } from "../middlewares/index";
+import { requireSignin, isAdmin, isAuthor } from "../middlewares/index";
 
 const router = express.Router();
 
@@ -10,6 +10,7 @@ const {
   forgotPassword,
   resetPassword,
   currentUser,
+  createUser,
 } = require("../controllers/auth");
 
 router.get("/", (req, res) => {
@@ -22,5 +23,7 @@ router.post("/signin", signin);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
 router.get("/current-admin", requireSignin, isAdmin, currentUser);
+router.get("/current-author", requireSignin, isAuthor, currentUser);
+router.post("/create-user", requireSignin, isAdmin, createUser);
 
 export default router;

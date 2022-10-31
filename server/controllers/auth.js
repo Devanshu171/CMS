@@ -2,6 +2,7 @@ import User from "../models/user";
 import { hashPassword, comparePassword } from "../helpers/auth";
 import jwt from "jsonwebtoken";
 import nanoid from "nanoid";
+import { json } from "express";
 
 // sendgrid
 require("dotenv").config();
@@ -158,6 +159,82 @@ export const resetPassword = async (req, res) => {
 export const currentUser = (req, res) => {
   try {
     res.json({ ok: true });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const createUser = async (req, res) => {
+  try {
+    // console.log(req.body);
+    const { name, email, password, role, checked, website } = req.body;
+    console.log(req.body);
+    if (!name) {
+      return res.json({ error: "Name is required" });
+    }
+    if (!email) {
+      return res.json({ error: "Email is required" });
+    }
+    if (!password || password.length < 6) {
+      return res.json({
+        error: "Password is required and should be 6 characters long.",
+      });
+    }
+    // if user exists
+    const exists = await User.findOne({ email: email });
+    if (exists) {
+      return res.json({
+        error: "Email is taken.",
+      });
+    }
+    // hash password
+    const hashedPassword = await hashPassword(password);
+    if (checked) {
+      // send email to user
+      const emailData = {
+        to: email,
+        from: process.env.EMAIL_FROM,
+        subject: "Account Created",
+        html: `
+         <div
+          style="background-color:#333;
+          text-align:center;
+          padding:50px; 
+          color:white;
+          border:5px solid orangered;
+          
+          font-family:sans-serif;
+          height:100%">
+          <h1>Hi ${name}</h1>
+          <p>Your CMS account has been created successfully.</p>
+          <h3>Your login details</h3>
+          <p >Email:<span style="color:blue;">${email}</span> </p>
+          <p >Password: <span style="color:grey;" >${password}</span></p>
+          <small >We recommend you to change your password after login</small>
+          </div>
+          `,
+      };
+      try {
+        const data = await sgMail.send(emailData);
+        console.log("Email sent successfully=>", data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    try {
+      const user = await new User({
+        name,
+        email,
+        password: hashedPassword,
+        role,
+        website,
+      }).save();
+
+      const { password, ...rest } = user._doc;
+      return res.json(rest);
+    } catch (err) {
+      console.log(err);
+    }
   } catch (err) {
     console.log(err);
   }

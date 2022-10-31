@@ -7,6 +7,7 @@ import axios from "axios";
 import { PostContext } from "../../../context/post";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
+import PostsList from "../../../components/posts/PostsList";
 export default function Posts() {
   // post stste
   const router = useRouter();
@@ -64,20 +65,11 @@ export default function Posts() {
             <h1 style={{ margin: "15px 0", fontSize: "30px" }}>
               {post.posts.length} Posts
             </h1>
-            <List
-              itemLayout="horizontal"
-              dataSource={post.posts}
-              renderItem={(item) => (
-                <List.Item
-                  actions={[
-                    <a onClick={() => handleEdit(item)}>Edit</a>,
-                    <a onClick={() => handleDelete(item)}>Delete</a>,
-                  ]}
-                >
-                  <List.Item.Meta title={item.title} />
-                </List.Item>
-              )}
-            ></List>
+            <PostsList
+              post={post}
+              handleDelete={handleDelete}
+              handleEdit={handleEdit}
+            />
           </Col>
         </Row>
       </AdminLayout>
