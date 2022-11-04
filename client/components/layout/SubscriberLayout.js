@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { Layout } from "antd";
 
-import AdminNav from "../nav/AdminNav";
+import SubscriberNav from "../nav/SubscriberNav";
 const { Content } = Layout;
 import { AuthContext } from "../../context/auth";
 import { useRouter } from "next/router";
 import { LoadingOutlined } from "@ant-design/icons";
 import axios from "axios";
-function Admin({ children }) {
+function SubscriberLayout({ children }) {
   const [auth, setAuth] = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -18,14 +18,14 @@ function Admin({ children }) {
     // } else {
     //   setLoading(false);
     // }
-    if (auth?.token) getCurrentAdmin();
-    // else if (!auth.user) router.push("/signin");
+    if (auth?.token) getCurrentAuthor();
+    // else if (!auth.user) router.push("/");
   }, [auth?.token]);
 
-  const getCurrentAdmin = async () => {
+  const getCurrentAuthor = async () => {
     console.log("im here at admin check point");
     try {
-      const { data } = await axios.get("/current-admin");
+      const { data } = await axios.get("/current-subscriber");
       console.log(data);
       setLoading(false);
     } catch (err) {
@@ -49,11 +49,11 @@ function Admin({ children }) {
     </div>
   ) : (
     <Layout>
-      <AdminNav />
+      <SubscriberNav />
       <Layout>
         <Content style={{ padding: "10px" }}>{children}</Content>
       </Layout>
     </Layout>
   );
 }
-export default Admin;
+export default SubscriberLayout;

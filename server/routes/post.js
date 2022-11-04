@@ -22,6 +22,7 @@ import {
   singlePost,
   removePost,
   editPost,
+  postsByAuthor,
 } from "../controllers/post";
 router.post("/upload-image", requireSignin, canCreateRead, uploadImage);
 router.post(
@@ -36,7 +37,7 @@ router.get("/posts", getPosts);
 router.get("/post/:slug", singlePost);
 router.delete("/post/:postId", requireSignin, canUpdateDeletePost, removePost);
 router.put("/edit-post/:postId", requireSignin, canUpdateDeletePost, editPost);
-
+router.get("/post-by-author", requireSignin, canCreateRead, postsByAuthor);
 // media route
 
 router.get("/media", requireSignin, canCreateRead, getMedia);

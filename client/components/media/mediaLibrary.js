@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 
 const { Dragger } = Upload;
 
-const MediaLibrary = ({ show }) => {
+const MediaLibrary = ({ show, page = "admin" }) => {
   // context
   const [auth, setAuth] = useContext(AuthContext);
   const [media, setMedia] = useContext(MediaContext);
@@ -101,6 +101,9 @@ const MediaLibrary = ({ show }) => {
               />
               <br />
               <CloseCircleOutlined
+                disabled={
+                  image?.postedBy?._id !== auth.user._id && page !== "admin"
+                }
                 onClick={() => handleImageDetele(image._id)}
                 style={{
                   marginTop: "5px",

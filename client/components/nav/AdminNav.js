@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Menu, Button, Layout } from "antd";
-import Link from "next/link";
+import { AuthContext } from "../../context/auth";
 import { useWindowWidth } from "@react-hook/window-size";
 import { useRouter } from "next/router";
 import {
@@ -28,6 +28,7 @@ const AdminNav = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [current, setCurrent] = useState("");
   const [active, setActive] = useState("");
+  const [auth, setAuth] = useContext(AuthContext);
   const onlyWidth = useWindowWidth();
   const router = useRouter();
   useEffect(() => {
@@ -68,7 +69,7 @@ const AdminNav = () => {
       getItem("All Users", "/admin/users", <ContainerOutlined />),
       getItem("Add New", "/admin/users/new", <UsergroupAddOutlined />),
     ]),
-    getItem("Profile", "/admin/userid", <ProfileOutlined />),
+    getItem("Profile", `/admin/${auth?.user?._id}`, <ProfileOutlined />),
     getItem("Customize", "/admin/customize", <BgColorsOutlined />),
   ];
 

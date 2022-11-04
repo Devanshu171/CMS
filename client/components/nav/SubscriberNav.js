@@ -24,7 +24,7 @@ import {
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 
-const AuthorNav = () => {
+const SubscriberNav = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [current, setCurrent] = useState("");
   const [active, setActive] = useState("");
@@ -54,18 +54,11 @@ const AuthorNav = () => {
     };
   }
   const items = [
-    getItem("Dashboard", "/author", <SettingOutlined />),
-    getItem("Posts", "1", <PushpinOutlined />, [
-      getItem("All Posts", "/author/posts", <DesktopOutlined />),
-      getItem("Add New", "/author/posts/new", <FileAddOutlined />),
-    ]),
-    getItem("Media", "2", <CameraOutlined />, [
-      getItem("Library", "/author/media/library", <PictureOutlined />),
-      getItem("Add New", "/author/media/new", <FileAddOutlined />),
-    ]),
-    getItem("Comments", "/author/comments", <CommentOutlined />),
+    getItem("Dashboard", "/subscriber", <SettingOutlined />),
 
-    getItem("Profile", `/author/${auth?.user?._id}`, <ProfileOutlined />),
+    getItem("Comments", "/subscriber/comments", <CommentOutlined />),
+
+    getItem("Profile", `/subscriber/${auth?.user?._id}`, <ProfileOutlined />),
   ];
 
   return (
@@ -93,4 +86,4 @@ const AuthorNav = () => {
     </Sider>
   );
 };
-export default AuthorNav;
+export default SubscriberNav;

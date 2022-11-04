@@ -5,7 +5,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import { MediaContext } from "../../context/media";
 import { useRouter } from "next/router";
 
-const UploadFile = ({ redirectToLibrary }) => {
+const UploadFile = ({ redirectToLibrary, page = "admin" }) => {
   // context
   const router = useRouter();
   const [auth, setAuth] = useContext(AuthContext);
@@ -30,7 +30,7 @@ const UploadFile = ({ redirectToLibrary }) => {
           showMediaModal: false,
         });
         if (redirectToLibrary) {
-          router.push("/admin/media/library");
+          router.push(`/${page}/media/library`);
         }
       } else if (info.file.status === "error") {
         message.error(`${info.file.name} file upload failed.`);

@@ -11,43 +11,50 @@ import Media from "../media";
 import { MediaContext } from "../../context/media";
 
 const { Option } = Select;
-const { Content, Sider } = Layout;
 
-function NewPostComponent({ page = "admin" }) {
+function EditPostComponent({ page = "admin" }) {
   // load from local storage
-  const savedTitle = () => {
-    if (process.browser) {
-      if (localStorage.getItem("post-title")) {
-        return JSON.parse(localStorage.getItem("post-title"));
-      }
-    }
-  };
-  const savedContent = () => {
-    if (process.browser) {
-      if (localStorage.getItem("post-content")) {
-        return JSON.parse(localStorage.getItem("post-content"));
-      }
-    }
-  };
+
   // context
   const [theme, setTheme] = useContext(ThemeContext);
   const [media, setMedia] = useContext(MediaContext);
   // state
-  const [title, setTitle] = useState(savedTitle());
-  const [content, setContent] = useState(savedContent());
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [categories, setCategories] = useState([]);
+  const [postId, setPostId] = useState("");
   const [loadedCategories, setLoadedCategories] = useState([]);
+  const [featuredImage, setFeatuedImage] = useState({});
   const [visible, setVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [btnLoading, setBtnLoading] = useState(false);
   // media Modal
   // const [visibleMedia, setVisibleMedia] = useState(false);
   // hook
   const router = useRouter();
-
+  useEffect(() => {
+    loadPost();
+  }, [router?.query?.slug]);
   useEffect(() => {
     loadCategories();
   }, []);
-
+  const loadPost = async () => {
+    try {
+      const { data } = await axios.get(`/post/${router.query.slug}`);
+      console.log("Post form edit", data._id);
+      setTitle(data.title);
+      setContent(data.content);
+      // setCategories(data.categories);
+      setFeatuedImage(data.featuredImage);
+      setPostId(data._id);
+      let arr = [];
+      data.categories.map((category) => arr.push(category.name));
+      setCategories(arr);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const loadCategories = async () => {
     try {
       const { data } = await axios.get("/categories");
@@ -58,24 +65,25 @@ function NewPostComponent({ page = "admin" }) {
   };
 
   const handlePublish = async () => {
+    setBtnLoading(true);
     try {
-      if (!title) {
-        toast.error("Enter a title for your post");
-        return;
-      }
-      setLoading(true);
-      const { data } = await axios.post("/create-post", {
+      const { data } = await axios.put(`/edit-post/${postId}`, {
         title,
         content,
         categories,
-        featuredImage: media?.selected?._id,
+        featuredImage: media?.selected?._id
+          ? media?.selected?._id
+          : featuredImage?._id
+          ? featuredImage._id
+          : undefined,
       });
       if (data?.error) {
         toast.error(data?.error);
-        setLoading(false);
+        setBtnLoading(false);
       } else {
         // console.log("POST PUBLISHED RES => ", data);
-        toast.success("Post created successfully");
+        setBtnLoading(false);
+        toast.success("Post Updated successfully");
         localStorage.removeItem("post-title");
         localStorage.removeItem("post-content");
         setMedia({ ...media, selected: null });
@@ -83,15 +91,15 @@ function NewPostComponent({ page = "admin" }) {
       }
     } catch (err) {
       console.log(err);
-      toast.error("Post create failed. Try again.");
-      setLoading(false);
+      toast.error("Post update failed. Try again.");
+      setBtnLoading(false);
     }
   };
 
   return (
     <Row>
       <Col span={14} offset={1}>
-        <h1>Create new post</h1>
+        <h1>Edit post</h1>
         <Input
           size="large"
           value={title}
@@ -103,17 +111,21 @@ function NewPostComponent({ page = "admin" }) {
         />
         <br />
         <br />
-        <div className="editor-scroll">
-          <Editor
-            dark={theme === "light" ? false : true}
-            defaultValue={content}
-            onChange={(v) => {
-              setContent(v());
-              localStorage.setItem("post-content", JSON.stringify(v()));
-            }}
-            uploadImage={uploadImage}
-          />
-        </div>
+        {loading ? (
+          <h1>Loading...</h1>
+        ) : (
+          <div className="editor-scroll">
+            <Editor
+              dark={theme === "light" ? false : true}
+              defaultValue={content}
+              onChange={(v) => {
+                setContent(v());
+                localStorage.setItem("post-content", JSON.stringify(v()));
+              }}
+              uploadImage={uploadImage}
+            />
+          </div>
+        )}
 
         <br />
         <br />
@@ -144,25 +156,32 @@ function NewPostComponent({ page = "admin" }) {
           placeholder="Select categories"
           style={{ width: "100%" }}
           onChange={(v) => setCategories(v)}
+          value={categories}
         >
           {loadedCategories.map((item) => (
             <Option key={item.name}>{item.name}</Option>
           ))}
         </Select>
 
-        {media?.selected && (
+        {media?.selected ? (
           <div style={{ marginTop: "15px" }}>
             <Image width="100%" src={media?.selected?.url} />
           </div>
+        ) : featuredImage?.url ? (
+          <div style={{ marginTop: "15px" }}>
+            <Image width="100%" src={featuredImage?.url} />
+          </div>
+        ) : (
+          ""
         )}
 
         <Button
-          loading={loading}
           style={{ margin: "10px 0px 10px 0px", width: "100%" }}
           type="primary"
           onClick={handlePublish}
+          loading={btnLoading}
         >
-          Publish
+          Update
         </Button>
       </Col>
       {/* preview modal */}
@@ -197,4 +216,4 @@ function NewPostComponent({ page = "admin" }) {
   );
 }
 
-export default NewPostComponent;
+export default EditPostComponent;

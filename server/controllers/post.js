@@ -1,4 +1,5 @@
 import Post from "../models/post";
+import User from "../models/user";
 import Category from "../models/category";
 import cloudinary from "cloudinary";
 import slugify from "slugify";
@@ -56,6 +57,10 @@ export const createPost = async (req, res) => {
           categories: ids,
           postedBy: req.user._id,
         }).save();
+        // push the post id to user's posts array
+        await User.findByIdAndUpdate(req.user._id, {
+          $addToSet: { posts: post._id },
+        });
         console.log(post);
         return res.json(post);
       } catch (err) {
@@ -132,14 +137,16 @@ export const singlePost = async (req, res) => {
 
 export const removePost = async (req, res) => {
   try {
-    const post = await Post.findOneAndDelete({ _id: req.params.postId });
-    console.log("deletion successful=>", post);
+    console.log(req.params.postId);
+    const post = await Post.findByIdAndDelete(req.params.postId);
+
+    console.log("deleted");
     res.json({ ok: true });
   } catch (err) {
+    console.log("failed");
     console.log(err);
   }
 };
-
 export const editPost = async (req, res) => {
   try {
     const { postId } = req.params;
@@ -168,6 +175,18 @@ export const editPost = async (req, res) => {
         .populate("featuredImage", "url");
       res.json(post);
     }, 1000);
+  } catch (err) {
+    console.log(err);
+  }
+};
+export const postsByAuthor = async (req, res) => {
+  try {
+    const posts = await Post.find({ postedBy: req.user._id })
+      .populate("postedBy", " name")
+      .populate("categories", "name slug")
+      .populate("featuredImage", "url")
+      .sort({ createdAt: -1 });
+    res.json(posts);
   } catch (err) {
     console.log(err);
   }

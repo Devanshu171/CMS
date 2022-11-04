@@ -1,0 +1,78 @@
+import { useEffect, useState, useContext } from "react";
+import AuthorLayout from "../../../components/layout/AuthorLayout";
+import { Button, Row, Col, List } from "antd";
+import Link from "next/link";
+import { PlusOutlined } from "@ant-design/icons";
+import axios from "axios";
+import { PostContext } from "../../../context/post";
+import toast from "react-hot-toast";
+import { useRouter } from "next/router";
+import PostsList from "../../../components/posts/PostsList";
+export default function Posts() {
+  // post stste
+  const router = useRouter();
+  const [post, setPost] = useContext(PostContext);
+  useEffect(() => {
+    getPosts();
+  }, []);
+  const getPosts = async () => {
+    try {
+      //
+      const { data } = await axios.get("/post-by-author");
+      setPost((prev) => ({ ...prev, posts: data }));
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleEdit = async (item) => {
+    //
+    return router.push(`/author/posts/${item.slug}`);
+  };
+  const handleDelete = async (item) => {
+    try {
+      const answer = window.confirm(
+        "Are you sure you want to delete this item?"
+      );
+      if (!answer) return;
+      const { data } = await axios.delete(`/post/${item._id}`);
+      if (data.ok) {
+        toast.success("Post deleted successfully.");
+        setPost((prev) => ({
+          ...prev,
+          posts: prev.posts.filter((p) => p._id !== item._id),
+        }));
+      } else {
+        toast.error("Post deletion failed. Please try again");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  return (
+    <div>
+      <AuthorLayout>
+        <Row>
+          <Col span={22} offset={1}>
+            <Button type="primary">
+              <Link href={"/author/posts/new"}>
+                <a>
+                  {" "}
+                  <PlusOutlined /> Add New
+                </a>
+              </Link>
+            </Button>
+            <h1 style={{ margin: "15px 0", fontSize: "30px" }}>
+              {post.posts.length} Posts
+            </h1>
+            <PostsList
+              post={post}
+              handleDelete={handleDelete}
+              handleEdit={handleEdit}
+            />
+          </Col>
+        </Row>
+      </AuthorLayout>
+    </div>
+  );
+}
