@@ -72,14 +72,27 @@ export const createPost = async (req, res) => {
   }
 };
 
+export const postForAdmin = async (req, res) => {
+  //
+  try {
+    const allPost = await Post.find().select("title slug");
+    res.json(allPost);
+  } catch (err) {
+    console.log(err);
+  }
+};
 export const getPosts = async (req, res) => {
   //
   try {
+    const perPage = 6;
+    const page = req.params.page || 1;
     const allPost = await Post.find()
+      .skip((page - 1) * perPage)
       .populate("featuredImage")
       .populate("postedBy", "name")
       .populate("categories", "name slug")
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .limit(perPage);
     res.json(allPost);
   } catch (err) {
     console.log(err);
@@ -187,6 +200,14 @@ export const postsByAuthor = async (req, res) => {
       .populate("featuredImage", "url")
       .sort({ createdAt: -1 });
     res.json(posts);
+  } catch (err) {
+    console.log(err);
+  }
+};
+export const postCount = async (req, res) => {
+  try {
+    const count = await Post.countDocuments();
+    res.json(count);
   } catch (err) {
     console.log(err);
   }

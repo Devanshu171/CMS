@@ -4,7 +4,7 @@ const PostsList = ({ post, handleDelete, handleEdit }) => {
   return (
     <List
       itemLayout="horizontal"
-      dataSource={post.posts}
+      dataSource={post}
       renderItem={(item) => (
         <List.Item
           actions={[
