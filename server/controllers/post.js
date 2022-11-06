@@ -4,6 +4,7 @@ import Category from "../models/category";
 import cloudinary from "cloudinary";
 import slugify from "slugify";
 import Media from "../models/media";
+import Comment from "../models/comment";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -142,7 +143,10 @@ export const singlePost = async (req, res) => {
       .populate("postedBy", "_id name")
       .populate("categories", "name slug")
       .populate("featuredImage", "url");
-    res.json(post);
+    const comments = await Comment.find({ postId: post._id })
+      .populate("postedBy", "name")
+      .sort({ createdAt: -1 });
+    res.json({ post, comments });
   } catch (err) {
     console.log(err);
   }
@@ -208,6 +212,23 @@ export const postCount = async (req, res) => {
   try {
     const count = await Post.countDocuments();
     res.json(count);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const createComment = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const { content } = req.body;
+    console.log(req.body);
+    let comment = await new Comment({
+      content,
+      postedBy: req.user._id,
+      postId,
+    }).save();
+    comment = await comment.populate("postedBy", "name");
+    res.json(comment);
   } catch (err) {
     console.log(err);
   }

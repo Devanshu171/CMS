@@ -42,13 +42,14 @@ function EditPostComponent({ page = "admin" }) {
     try {
       const { data } = await axios.get(`/post/${router.query.slug}`);
       console.log("Post form edit", data._id);
-      setTitle(data.title);
-      setContent(data.content);
+      setTitle(data.post.title);
+      setContent(data.post.content);
+      xx;
       // setCategories(data.categories);
-      setFeatuedImage(data.featuredImage);
+      setFeatuedImage(data.post.featuredImage);
       setPostId(data._id);
       let arr = [];
-      data.categories.map((category) => arr.push(category.name));
+      data.post.categories.map((category) => arr.push(category.name));
       setCategories(arr);
       setLoading(false);
     } catch (err) {

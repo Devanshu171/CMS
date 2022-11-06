@@ -25,6 +25,7 @@ import {
   postsByAuthor,
   postCount,
   postForAdmin,
+  createComment,
 } from "../controllers/post";
 router.post("/upload-image", requireSignin, canCreateRead, uploadImage);
 router.post(
@@ -49,4 +50,10 @@ router.get("/posts-for-admin", postForAdmin);
 router.get("/media", requireSignin, canCreateRead, getMedia);
 router.delete("/media/:id", requireSignin, canDeleteMedia, removeMedia);
 
+//Comments
+
+router.post("/comment/:postId", requireSignin, createComment);
+router.get("/comments/:page", requireSignin, isAdmin, comments);
+router.get("/comment-count", countComment);
+router.delete("/comment/:commentId", requireSignin, isAdmin, removeComment);
 export default router;

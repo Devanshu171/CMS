@@ -1,16 +1,44 @@
-import React, { useContext } from "react";
-import { Row, Col, Card, Typography } from "antd";
+import React, { useContext, useState } from "react";
+import { Row, Col, Card, Typography, List, Avatar } from "antd";
 import Head from "next/head";
 import axios from "axios";
 import Link from "next/link";
 import dayjs from "dayjs";
+import { AuthContext } from "../../context/auth";
 import Editor from "rich-markdown-editor";
 import { ThemeContext } from "../../context/theme";
+import CommentForm from "../../components/comment/commentForm";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 const { Meta } = Card;
 const { Title } = Typography;
+import { toast } from "react-hot-toast";
 
-export default function SinglePost({ post }) {
+export default function SinglePost({ post, postComments }) {
   const [theme, setTheme] = useContext(ThemeContext);
+  const [comments, setComments] = useState(postComments);
+  const [comment, setComment] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [auth, setAuth] = useContext(AuthContext);
+  const handleSubmit = async () => {
+    if (auth.user.token === null) {
+      toast.error("Login or Create a new account to post a comment!");
+      return;
+    }
+    try {
+      setLoading(true);
+      const { data } = await axios.post(`/comment/${post._id}`, {
+        content: comment,
+      });
+      setComment("");
+      setLoading(false);
+      toast.success("Comment posted successfully");
+      setComments([data, ...comments]);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
+  };
   return (
     <div>
       <Head>
@@ -43,6 +71,30 @@ export default function SinglePost({ post }) {
               dark={theme == "dark"}
               readOnly={true}
               defaultValue={post?.content}
+            />
+            <br />
+
+            <CommentForm
+              setComment={setComment}
+              comment={comment}
+              handleSubmit={handleSubmit}
+              loading={loading}
+            />
+            <div style={{ marginBottom: 50 }}></div>
+            <List
+              itemLayout="horizontal"
+              dataSource={comments}
+              renderItem={(item) => (
+                <List.Item key={item._id} id={item._id}>
+                  <List.Item.Meta
+                    avatar={<Avatar>{item?.postedBy?.name?.charAt(0)}</Avatar>}
+                    title={item?.postedBy?.name}
+                    description={`${item.content} - ${dayjs(
+                      item.createdAt
+                    ).fromNow()}`}
+                  />
+                </List.Item>
+              )}
             />
           </Card>
         </Col>
@@ -87,9 +139,11 @@ export default function SinglePost({ post }) {
 }
 export async function getServerSideProps({ params }) {
   const { data } = await axios.get(`${process.env.API}/post/${params.slug}`);
+
   return {
     props: {
-      post: data,
+      post: data.post,
+      postComments: data.comments,
     },
   };
 
