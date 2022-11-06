@@ -9,6 +9,7 @@ import {
   canCreateRead,
   canUpdateDeletePost,
   canDeleteMedia,
+  canUpdateDeleteComment,
 } from "../middlewares/index";
 
 // controllers
@@ -25,7 +26,12 @@ import {
   postsByAuthor,
   postCount,
   postForAdmin,
+  comments,
+  removeComment,
+  commentCount,
   createComment,
+  updateComment,
+  userComments,
 } from "../controllers/post";
 router.post("/upload-image", requireSignin, canCreateRead, uploadImage);
 router.post(
@@ -54,6 +60,18 @@ router.delete("/media/:id", requireSignin, canDeleteMedia, removeMedia);
 
 router.post("/comment/:postId", requireSignin, createComment);
 router.get("/comments/:page", requireSignin, isAdmin, comments);
-router.get("/comment-count", countComment);
-router.delete("/comment/:commentId", requireSignin, isAdmin, removeComment);
+router.get("/user-comments", requireSignin, userComments);
+router.get("/comment-count", commentCount);
+router.delete(
+  "/comment/:commentId",
+  requireSignin,
+  canUpdateDeleteComment,
+  removeComment
+);
+router.put(
+  "/comment/:commentId",
+  requireSignin,
+  canUpdateDeleteComment,
+  updateComment
+);
 export default router;

@@ -1,6 +1,7 @@
 import User from "../models/user";
 import Post from "../models/post";
 import Media from "../models/media";
+import Comment from "../models/comment";
 import expressJwt from "express-jwt";
 require("dotenv").config();
 
@@ -92,6 +93,24 @@ export const canDeleteMedia = async (req, res, next) => {
           next();
         }
         break;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const canUpdateDeleteComment = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id);
+    const comment = await Comment.findById(req.params.commentId);
+    if (user.role === "Admin") {
+      next();
+    } else {
+      if (comment.postedBy.toString() !== req.user._id.toString()) {
+        return res.status(403).send("Unauhorized");
+      } else {
+        next();
+      }
     }
   } catch (err) {
     console.log(err);

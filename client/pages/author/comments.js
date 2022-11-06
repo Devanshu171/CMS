@@ -1,10 +1,10 @@
-import SubscriberLayout from "../../components/layout/SubscriberLayout";
+import AuthorLayout from "../../components/layout/AuthorLayout";
 import UserComments from "../../components/comment/userComments";
 
 export default function comments() {
   return (
-    <SubscriberLayout>
+    <AuthorLayout>
       <UserComments />
-    </SubscriberLayout>
+    </AuthorLayout>
   );
 }

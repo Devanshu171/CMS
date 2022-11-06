@@ -1,23 +1,29 @@
 import { useEffect, useState, useContext } from "react";
+import { Row, Col, Button, List } from "antd";
 import AuthorLayout from "../../../components/layout/AuthorLayout";
-import { Button, Row, Col, List } from "antd";
 import Link from "next/link";
 import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { PostContext } from "../../../context/post";
-import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import PostsList from "../../../components/posts/PostsList";
-export default function Posts() {
-  // post stste
-  const router = useRouter();
+import { AuthContext } from "../../../context/auth";
+
+function Posts() {
   const [post, setPost] = useContext(PostContext);
+  const [auth, setAuth] = useContext(AuthContext);
+
+  // hook
+  const router = useRouter();
+
+  const { posts } = post;
+
   useEffect(() => {
-    getPosts();
-  }, []);
-  const getPosts = async () => {
+    if (auth?.token) fetchPosts();
+  }, [auth?.token]);
+
+  const fetchPosts = async () => {
     try {
-      //
       const { data } = await axios.get("/post-by-author");
       setPost((prev) => ({ ...prev, posts: data }));
       console.log(data);
@@ -25,54 +31,50 @@ export default function Posts() {
       console.log(err);
     }
   };
-  const handleEdit = async (item) => {
-    //
-    return router.push(`/author/posts/${item.slug}`);
+
+  const handleEdit = async (post) => {
+    // console.log("EDIT POST", post);
+    return router.push(`/author/posts/${post.slug}`);
   };
-  const handleDelete = async (item) => {
+
+  const handleDelete = async (post) => {
+    // console.log("DELETE POST", post);
     try {
-      const answer = window.confirm(
-        "Are you sure you want to delete this item?"
-      );
+      const answer = window.confirm("Are you sure you want to delete?");
       if (!answer) return;
-      const { data } = await axios.delete(`/post/${item._id}`);
+      const { data } = await axios.delete(`/post/${post._id}`);
       if (data.ok) {
-        toast.success("Post deleted successfully.");
         setPost((prev) => ({
           ...prev,
-          posts: prev.posts.filter((p) => p._id !== item._id),
+          posts: prev.posts.filter((p) => p._id !== post._id),
         }));
-      } else {
-        toast.error("Post deletion failed. Please try again");
       }
     } catch (err) {
       console.log(err);
     }
   };
+
   return (
-    <div>
-      <AuthorLayout>
-        <Row>
-          <Col span={22} offset={1}>
-            <Button type="primary">
-              <Link href={"/author/posts/new"}>
-                <a>
-                  {" "}
-                  <PlusOutlined /> Add New
-                </a>
-              </Link>
-            </Button>
-            <h1 style={{ margin: "15px 0", fontSize: "30px" }}>
-              {post.posts.length} Posts
-            </h1>
-            <PostsList
-              post={post}
-              handleDelete={handleDelete}
-              handleEdit={handleEdit}
-            />
-          </Col>
-        </Row>
-      </AuthorLayout>
-    </div>
+    <AuthorLayout>
+      <Row>
+        <Col span={24}>
+          <Button type="primary">
+            <Link href="/author/posts/new">
+              <a>
+                <PlusOutlined /> Add New
+              </a>
+            </Link>
+          </Button>
+          <h1 style={{ marginTop: 15 }}>{posts?.length} Posts</h1>
+          <PostsList
+            post={posts}
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+          />
+        </Col>
+      </Row>
+    </AuthorLayout>
   );
 }
+
+export default Posts;
