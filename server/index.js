@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import authRoutes from "./routes/auth";
 import categoryRoutes from "./routes/category";
 import postsRoutes from "./routes/post";
+import websiteRoutes from "./routes/website";
 const morgan = require("morgan");
 
 const app = express();
@@ -25,5 +26,6 @@ app.use(morgan("dev"));
 app.use("/api", authRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", postsRoutes);
+app.use("/api", websiteRoutes);
 
 app.listen(8000, () => console.log("Server running on port 8000"));

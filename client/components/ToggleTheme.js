@@ -16,7 +16,7 @@ const ToggleTheme = () => {
           }}
           style={{ fontSize: "30px", cursor: "pointer" }}
         >
-          🌚
+          🌙
         </span>
       ) : (
         <span
@@ -27,7 +27,7 @@ const ToggleTheme = () => {
           style={{ fontSize: "30px", cursor: "pointer" }}
         >
           {" "}
-          🌞
+          ☀️
         </span>
       )}
     </>
