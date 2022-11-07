@@ -28,4 +28,6 @@ app.use("/api", categoryRoutes);
 app.use("/api", postsRoutes);
 app.use("/api", websiteRoutes);
 
-app.listen(8000, () => console.log("Server running on port 8000"));
+app.listen(process.env.PORT || 8000, () =>
+  console.log("Server running on port 8000")
+);
