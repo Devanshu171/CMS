@@ -2,18 +2,18 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const useLatestPosts = () => {
-  const [posts, setPosts] = useState([]);
+  const [latestPosts, setlatestPosts] = useState([]);
   useEffect(() => {
     getpost();
   }, []);
   const getpost = async () => {
     try {
       const { data } = await axios.get("/posts/1");
-      setPosts(data);
+      setlatestPosts(data);
     } catch (err) {
       console.log(err);
     }
   };
-  return { posts };
+  return { latestPosts };
 };
 export default useLatestPosts;

@@ -3,26 +3,21 @@ import AdminLayout from "../../components/layout/AdminLayout";
 import { Row, Col, Divider } from "antd";
 import RenderProgress from "../../components/RenderProgress";
 import axios from "axios";
+import userNumbers from "../../hooks/useNumbers";
 function Admin() {
-  const [numbers, setNumbers] = useState({});
-  useEffect(() => {
-    getnumbers();
-  }, []);
-  async function getnumbers() {
-    const { data } = await axios.get("/number");
-    setNumbers(data);
-  }
+  const { numbers } = userNumbers();
   return (
     <AdminLayout>
-      <Row style={{ overflow: "hidden" }}>
+      <Row style={{ overflow: "hidden", margin: "20px 60px" }}>
         <Col span={24}>
           <h1>
             <Divider>Statistics</Divider>
           </h1>
         </Col>
         <Col
-          span={12}
-          style={{ marginTop: "10px", textAlign: "center", fontSize: "30px" }}
+          span={10}
+          style={{ marginTop: "80px", textAlign: "center", fontSize: "30px" }}
+          offset={1}
         >
           <RenderProgress
             number={numbers.posts}
@@ -31,8 +26,9 @@ function Admin() {
           />
         </Col>
         <Col
-          span={12}
-          style={{ marginTop: "10px", textAlign: "center", fontSize: "30px" }}
+          span={10}
+          style={{ marginTop: "80px", textAlign: "center", fontSize: "30px" }}
+          offset={1}
         >
           <RenderProgress
             name="comments"
@@ -41,16 +37,20 @@ function Admin() {
           />
         </Col>
         <Col
-          name="users"
-          link="/admin/users"
-          span={12}
-          style={{ marginTop: "50px", textAlign: "center", fontSize: "30px" }}
+          span={10}
+          style={{ marginTop: "80px", textAlign: "center", fontSize: "30px" }}
+          offset={1}
         >
-          <RenderProgress name="users" number={numbers.users} />
+          <RenderProgress
+            link="/admin/users"
+            name="users"
+            number={numbers.users}
+          />
         </Col>
         <Col
-          span={12}
-          style={{ marginTop: "50px", textAlign: "center", fontSize: "30px" }}
+          span={10}
+          style={{ marginTop: "80px", textAlign: "center", fontSize: "30px" }}
+          offset={1}
         >
           <RenderProgress
             name="categories"

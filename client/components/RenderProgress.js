@@ -7,8 +7,7 @@ const RenderProgress = ({ number = 0, name = "default", link = "#" }) => {
     <Link href={link}>
       <a style={{ textAlign: "center" }}>
         <Progress
-          width="200px"
-          strokeWidth={8}
+          strokeWidth={6}
           style={{ color: "white !important", fontSize: "40px !important" }}
           type="circle"
           strokeColor={{ "0%": "#4481eb", "100%": "#04befe" }}

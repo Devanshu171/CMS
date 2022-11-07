@@ -7,6 +7,7 @@ import { AuthContext } from "../../context/auth";
 import { useRouter } from "next/router";
 import { LoadingOutlined } from "@ant-design/icons";
 import axios from "axios";
+import LoadingToRedirect from "../LoadingToRedirect";
 function AuthorLayout({ children }) {
   const [auth, setAuth] = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
@@ -34,19 +35,7 @@ function AuthorLayout({ children }) {
     }
   };
   return loading ? (
-    <div style={{ overflow: "hidden" }}>
-      <LoadingOutlined
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-
-          height: "80vh",
-          fontSize: "59px",
-          color: "#0ae",
-        }}
-      />
-    </div>
+    <LoadingToRedirect />
   ) : (
     <Layout>
       <AuthorNav />

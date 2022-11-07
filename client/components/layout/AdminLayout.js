@@ -6,6 +6,8 @@ const { Content } = Layout;
 import { AuthContext } from "../../context/auth";
 import { useRouter } from "next/router";
 import { LoadingOutlined } from "@ant-design/icons";
+import LoadingToRedirect from "../LoadingToRedirect";
+
 import axios from "axios";
 function Admin({ children }) {
   const [auth, setAuth] = useContext(AuthContext);
@@ -34,19 +36,7 @@ function Admin({ children }) {
     }
   };
   return loading ? (
-    <div style={{ overflow: "hidden" }}>
-      <LoadingOutlined
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-
-          height: "80vh",
-          fontSize: "59px",
-          color: "#0ae",
-        }}
-      />
-    </div>
+    <LoadingToRedirect />
   ) : (
     <Layout>
       <AdminNav />
