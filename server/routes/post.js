@@ -32,6 +32,7 @@ import {
   createComment,
   updateComment,
   userComments,
+  getNumbers,
 } from "../controllers/post";
 router.post("/upload-image", requireSignin, canCreateRead, uploadImage);
 router.post(
@@ -74,4 +75,6 @@ router.put(
   canUpdateDeleteComment,
   updateComment
 );
+router.get("/number", getNumbers);
+
 export default router;

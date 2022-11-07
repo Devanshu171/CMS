@@ -13,7 +13,7 @@ dayjs.extend(relativeTime);
 const { Meta } = Card;
 const { Title } = Typography;
 import { toast } from "react-hot-toast";
-
+import { ShareSocial } from "react-share-social";
 export default function SinglePost({ post, postComments }) {
   const [theme, setTheme] = useContext(ThemeContext);
   const [comments, setComments] = useState(postComments);
@@ -21,7 +21,7 @@ export default function SinglePost({ post, postComments }) {
   const [loading, setLoading] = useState(false);
   const [auth, setAuth] = useContext(AuthContext);
   const handleSubmit = async () => {
-    if (auth.user.token === null) {
+    if (auth?.user === null) {
       toast.error("Login or Create a new account to post a comment!");
       return;
     }
@@ -67,7 +67,20 @@ export default function SinglePost({ post, postComments }) {
                 </span>
               ))}
             </p>
+            {/*Socials*/}
+            <div style={{ marginTop: "-20px", marginBottom: "15px" }}>
+              <ShareSocial
+                style={{
+                  height: "100px",
+                  overflow: "hidden",
+                  background: "none",
+                }}
+                url={typeof window !== "undefined" && window.location.href}
+                socialTypes={["facebook", "twitter", "linkedin", "reddit"]}
+              />
+            </div>
             <Editor
+              style={{ boxShadow: "0px 0px 1px 1px rgba(0,0,0,0.2)" }}
               dark={theme == "dark"}
               readOnly={true}
               defaultValue={post?.content}

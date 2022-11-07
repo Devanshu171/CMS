@@ -1,26 +1,64 @@
-import { Layout } from "antd";
+import { useState, useEffect } from "react";
 import AdminLayout from "../../components/layout/AdminLayout";
-const { Content, Sider } = Layout;
+import { Row, Col, Divider } from "antd";
+import RenderProgress from "../../components/RenderProgress";
+import axios from "axios";
 function Admin() {
+  const [numbers, setNumbers] = useState({});
+  useEffect(() => {
+    getnumbers();
+  }, []);
+  async function getnumbers() {
+    const { data } = await axios.get("/number");
+    setNumbers(data);
+  }
   return (
     <AdminLayout>
-      <div>
-        <h2>dfsdf</h2>
-        <h4>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore aut
-          velit praesentium ratione dignissimos temporibus ullam illo nam
-          aliquid, nostrum voluptate veniam? Animi enim rem eius sapiente quo,
-          Minima quasi ab non? Odio laboriosam ullam adipisci modi minima sit
-          ducimus! Ducimus alias repellendus facilis magni modi distinctio
-          ratione quas voluptate deleniti suscipit amet harum itaque ipsum, sit
-          vero enim, iure exercitationem corrupti. Neque vonem rerum nostrum
-          nihil saepe. Minima reiciendis possimus, at doloremque nihil non?
-          Aperiam odit culpa voluptatem nulla delectus qui minima odio
-          voluptates esse blanditiis tenetur pariatur quos officiis obcaecati ut
-          reprehenderit minus, voluptas sequi. Quaerat repellendus distinctio
-          eius tenetur rem excepturi velit.
-        </h4>
-      </div>
+      <Row style={{ overflow: "hidden" }}>
+        <Col span={24}>
+          <h1>
+            <Divider>Statistics</Divider>
+          </h1>
+        </Col>
+        <Col
+          span={12}
+          style={{ marginTop: "10px", textAlign: "center", fontSize: "30px" }}
+        >
+          <RenderProgress
+            number={numbers.posts}
+            name="posts"
+            link="/admin/posts"
+          />
+        </Col>
+        <Col
+          span={12}
+          style={{ marginTop: "10px", textAlign: "center", fontSize: "30px" }}
+        >
+          <RenderProgress
+            name="comments"
+            link="/admin/comments"
+            number={numbers.comments}
+          />
+        </Col>
+        <Col
+          name="users"
+          link="/admin/users"
+          span={12}
+          style={{ marginTop: "50px", textAlign: "center", fontSize: "30px" }}
+        >
+          <RenderProgress name="users" number={numbers.users} />
+        </Col>
+        <Col
+          span={12}
+          style={{ marginTop: "50px", textAlign: "center", fontSize: "30px" }}
+        >
+          <RenderProgress
+            name="categories"
+            link="/admin/catogries"
+            number={numbers.categories}
+          />
+        </Col>
+      </Row>
     </AdminLayout>
   );
 }
