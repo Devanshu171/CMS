@@ -1,6 +1,6 @@
 import Category from "../models/category";
+import Post from "../models/post";
 import slugify from "slugify";
-import { JsonWebTokenError } from "jsonwebtoken";
 export const create = async (req, res) => {
   try {
     const { name } = req.body;
@@ -53,6 +53,20 @@ export const updateCategory = async (req, res) => {
       { new: true }
     );
     res.json(category);
+  } catch (err) {
+    console.log(err);
+  }
+};
+export const postbyCategory = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const category = await Category.findOne({ slug });
+    console.log(category);
+    const posts = await Post.find({ categories: category._id })
+      .populate("featuredImage postedBy")
+      .limit(20);
+
+    res.json({ posts, category });
   } catch (err) {
     console.log(err);
   }
