@@ -22,6 +22,8 @@
 .ant-upload-drag {
   height: 150px !important;
 }
-.body {
-  overflow: hidden;
+
+* {
+  font-family: "Rubik", sans-serif;
+  letter-spacing: 0.03em;
 }

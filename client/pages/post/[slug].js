@@ -1,5 +1,14 @@
 import React, { useContext, useState } from "react";
-import { Row, Col, Card, Typography, List, Avatar } from "antd";
+import {
+  Row,
+  Col,
+  Button,
+  Card,
+  Typography,
+  List,
+  Avatar,
+  Divider,
+} from "antd";
 import Head from "next/head";
 import axios from "axios";
 import Link from "next/link";
@@ -14,12 +23,17 @@ const { Meta } = Card;
 const { Title } = Typography;
 import { toast } from "react-hot-toast";
 import { ShareSocial } from "react-share-social";
+import useCategory from "../../hooks/useCategory";
+import useLatestPosts from "../../hooks/useLatestPosts";
+
 export default function SinglePost({ post, postComments }) {
   const [theme, setTheme] = useContext(ThemeContext);
   const [comments, setComments] = useState(postComments);
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
   const [auth, setAuth] = useContext(AuthContext);
+  const { categories } = useCategory();
+  const { posts } = useLatestPosts();
   const handleSubmit = async () => {
     if (auth?.user === null) {
       toast.error("Login or Create a new account to post a comment!");
@@ -46,7 +60,7 @@ export default function SinglePost({ post, postComments }) {
         <meta description={post.content?.substring(0, 160)} />
       </Head>
       <Row>
-        <Col xs={24} xl={16}>
+        <Col xs={24} xl={18}>
           <Card
             cover={
               <img
@@ -111,40 +125,30 @@ export default function SinglePost({ post, postComments }) {
             />
           </Card>
         </Col>
-        <Col xs={22} xl={6} offset={1}>
-          Sidebar Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Laboriosam fuga sunt doloribus mollitia optio, numquam natus minima
-          minus, quibusdam dolorem, autem modi fugit voluptates cupiditate
-          reiciendis eos. Doloremque, ipsa nam? Saepe asperiores rerum provident
-          nostrum sed quaerat, vel illo consequuntur maxime animi nisi possimus
-          repellat ad dicta explicabo dolore magnam! Suscipit et quae
-          repellendus id esse aliquid vel quaerat possimus. Consectetur omnis,
-          molestias quaerat sapiente, cum ex quasi cumque dolorem quae itaque
-          vel inventore autem amet, alias iure libero eaque soluta fugiat facere
-          voluptatum! Quos numquam porro quae quia quod. Excepturi at dolore
-          voluptatum saepe veritatis officiis in voluptatibus, vero animi
-          explicabo, facilis nobis voluptatem ducimus reiciendis velit commodi
-          corporis eveniet. Quaerat eum tempora incidunt nemo dignissimos. Eius,
-          sit! Omnis! Velit perferendis quis voluptatem, itaque eveniet deserunt
-          sed excepturi sunt aperiam culpa placeat temporibus. Possimus quo
-          assumenda perspiciatis ut omnis voluptatum aperiam. Enim rem aut
-          maxime, quos molestias perspiciatis hic. Doloremque ab nisi, beatae,
-          adipisci quas nemo officiis reiciendis explicabo totam nulla ducimus
-          harum animi! Minus tenetur enim provident eligendi velit atque quaerat
-          aut neque tempora mollitia. Ex, perspiciatis a! Fugit tempore ipsam,
-          sequi, quos doloribus ipsa ex tempora dolorum aliquid asperiores
-          numquam. Minus id autem rem fugit, doloremque repellendus temporibus
-          velit ipsam! Dolore sequi consequuntur non nisi vitae dicta. Esse iste
-          nemo quod. Quasi, eos, expedita magnam sapiente soluta minus mollitia
-          necessitatibus neque alias dolore magni nulla dolorem adipisci unde
-          aspernatur fugiat, ipsum modi harum velit consequatur quia obcaecati.
-          Placeat quidem alias a cupiditate quos rerum quae porro magni, ipsam
-          molestiae deleniti hic omnis sunt accusamus perspiciatis nihil, nisi
-          qui optio suscipit nam totam ipsum! Laudantium aliquid fugit
-          accusamus. Maxime corrupti explicabo dolorum at sapiente in eos
-          molestiae distinctio delectus, architecto eveniet numquam, odit
-          corporis quisquam modi magnam, earum laudantium odio quae est impedit
-          iusto tempora? Quisquam, odio reiciendis.
+        <Col xs={24} md={24} xl={6} offset={0}>
+          <Divider>Categories</Divider>
+          {categories.map((c) => (
+            <Link key={c._id} href={`/category/${c.slug}`}>
+              <a>
+                <Button style={{ margin: 7 }}>{c.name}</Button>
+              </a>
+            </Link>
+          ))}
+          <Divider>Recent Posts</Divider>
+          {posts.map((p) => (
+            <Link key={p._id} href={`/post/${p.slug}`}>
+              <a
+                style={{
+                  margin: "0px 10px ",
+                  display: "block",
+                  fontSize: "17px",
+                  color: "inherit",
+                }}
+              >
+                {p.title}
+              </a>
+            </Link>
+          ))}
         </Col>
       </Row>
     </div>
