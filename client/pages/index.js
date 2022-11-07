@@ -11,6 +11,7 @@ import { ThunderboltOutlined } from "@ant-design/icons";
 
 import useCategory from "../hooks/useCategory";
 import ParallaxImage from "../components/pages/ParallaxImage";
+import Footer from "../components/pages/Footer";
 function Home() {
   const { numbers } = useNumbers();
   const { latestPosts } = useLatestPosts();
@@ -118,6 +119,7 @@ function Home() {
           </div>
         </Col>
       </Row>
+      <Footer />
     </>
   );
 }

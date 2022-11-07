@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function ParallaxImage({
-  url = "/images/b1.jpg",
+  url = "/images/b5.jpg",
   children,
   paddingTop = "100px",
   paddingBottom = "75px",
