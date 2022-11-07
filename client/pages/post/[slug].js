@@ -19,14 +19,14 @@ import { ThemeContext } from "../../context/theme";
 import CommentForm from "../../components/comment/commentForm";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
-const { Meta } = Card;
-const { Title } = Typography;
+
 import { toast } from "react-hot-toast";
 import { ShareSocial } from "react-share-social";
 import useCategory from "../../hooks/useCategory";
 import useLatestPosts from "../../hooks/useLatestPosts";
 
 export default function SinglePost({ post, postComments }) {
+  const { Title } = Typography;
   const [theme, setTheme] = useContext(ThemeContext);
   const [comments, setComments] = useState(postComments);
   const [comment, setComment] = useState("");

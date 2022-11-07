@@ -85,7 +85,7 @@ const MediaLibrary = ({ show, page = "admin" }) => {
       <div style={{ textAlign: "center" }}>
         {media?.images?.map((image) => {
           return (
-            <Badge style={{ textAlign: "center" }}>
+            <Badge key={image._id} style={{ textAlign: "center" }}>
               <Image
                 onClick={() => setMedia({ ...media, selected: image })}
                 style={{

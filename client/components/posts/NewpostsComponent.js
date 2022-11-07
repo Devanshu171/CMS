@@ -169,7 +169,7 @@ function NewPostComponent({ page = "admin" }) {
       <Modal
         title="Preview"
         centered
-        visible={visible}
+        open={visible}
         onOk={() => setVisible(false)}
         onCancel={() => setVisible(false)}
         width={720}
@@ -184,7 +184,7 @@ function NewPostComponent({ page = "admin" }) {
       </Modal>
       {/* media modal */}
       <Modal
-        visible={media.showMediaModal}
+        open={media.showMediaModal}
         title="Media"
         onOk={() => setMedia({ ...media, showMediaModal: false })}
         onCancel={() => setMedia({ ...media, showMediaModal: false })}

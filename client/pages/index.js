@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../context/auth";
 import { Row, Col, Button, Divider } from "antd";
 import Head from "next/head";
@@ -8,6 +8,7 @@ import RenderProgress from "../components/RenderProgress";
 import useNumbers from "../hooks/useNumbers";
 import useLatestPosts from "../hooks/useLatestPosts";
 import { ThunderboltOutlined } from "@ant-design/icons";
+import useHome from "../hooks/useHome";
 
 import useCategory from "../hooks/useCategory";
 import ParallaxImage from "../components/pages/ParallaxImage";
@@ -16,7 +17,14 @@ function Home() {
   const { numbers } = useNumbers();
   const { latestPosts } = useLatestPosts();
   const { categories } = useCategory();
-  const [auth, setAuth] = useContext(AuthContext);
+  const {
+    title,
+    subtitle,
+    fullWidthImage,
+    setTitle,
+    setSubtitle,
+    setFullWidthImage,
+  } = useHome();
   return (
     <>
       <Head>
@@ -26,7 +34,11 @@ function Home() {
           content="React lated blog posts on web development"
         />
       </Head>
-      <FullWidthImage />
+      <FullWidthImage
+        title={title}
+        subtitle={subtitle}
+        fullWidthImage={fullWidthImage?.url}
+      />
       <Row style={{ overflow: "hidden", marginTop: "30px" }}>
         <Col
           span={6}

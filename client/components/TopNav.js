@@ -3,41 +3,44 @@ import { Menu } from "antd";
 import {
   MailOutlined,
   AppstoreOutlined,
+  DatabaseOutlined,
+  SettingOutlined,
   UserAddOutlined,
   UserOutlined,
-  SettingOutlined,
   LogoutOutlined,
-  LoginOutlined,
-  DatabaseOutlined,
-  DatabaseTwoTone,
+  CloudFilled,
 } from "@ant-design/icons";
-const { SubMenu } = Menu;
-import { useRouter } from "next/router";
-import { AuthContext } from "../context/auth";
 import ToggleTheme from "./ToggleTheme";
-import Link from "next/Link";
+import Link from "next/link";
+import { AuthContext } from "../context/auth";
+import { useRouter } from "next/router";
+
+const { SubMenu } = Menu;
 
 const TopNav = () => {
-  const [current, setCurrent] = useState("mail");
-  const router = useRouter();
+  // context
   const [auth, setAuth] = useContext(AuthContext);
+  // state
+  const [current, setCurrent] = useState("mail");
+  // hooks
+  const router = useRouter();
+
   const handleClick = (e) => {
     console.log("click ", e);
     setCurrent(e.key);
   };
 
   const signOut = () => {
-    //remove from loacal storage
+    // remove from local storage
     localStorage.removeItem("auth");
-    // remove fom context
+    // remove from context
     setAuth({
       user: null,
       token: "",
     });
-    // redirect to login page
+    // redirect to login
     router.push("/signin");
   };
-  // console.log(auth.user);
 
   const roleBasedLink = () => {
     if (auth?.user?.role === "Admin") {
@@ -56,27 +59,29 @@ const TopNav = () => {
       mode="horizontal"
       theme="dark"
     >
-      <Menu.Item key="mail" icon={<AppstoreOutlined />}>
+      <Menu.Item key="mail" icon={<CloudFilled />}>
         <Link href="/">
           <a>CMS</a>
         </Link>
       </Menu.Item>
-      <Menu.Item key="post" icon={<DatabaseOutlined />}>
+
+      <Menu.Item key="posts" icon={<DatabaseOutlined />}>
         <Link href="/posts">
           <a>Posts</a>
         </Link>
       </Menu.Item>
+
       <Menu.Item key="contact" icon={<MailOutlined />}>
         <Link href="/contact">
           <a>Contact</a>
         </Link>
       </Menu.Item>
 
-      {auth.user === null && (
+      {auth?.user === null && (
         <>
           <Menu.Item
-            key="signup"
             style={{ marginLeft: "auto" }}
+            key="signup"
             icon={<UserAddOutlined />}
           >
             <Link href="/signup">
@@ -90,29 +95,35 @@ const TopNav = () => {
           </Menu.Item>
         </>
       )}
-      {auth?.user && (
+
+      {auth?.user !== null && (
         <>
           <SubMenu
             key="SubMenu"
-            style={{ marginLeft: "auto" }}
             icon={<SettingOutlined />}
-            title={auth?.user?.name || Dashboard}
+            title={auth?.user?.name || "Dashboard"}
+            style={{ marginLeft: "auto" }}
           >
             <Menu.ItemGroup title="Management">
-              <Menu.Item key="setting:1">
+              <Menu.Item key="setting:2">
                 <Link href={roleBasedLink()}>
                   <a>Dashboard</a>
                 </Link>
               </Menu.Item>
             </Menu.ItemGroup>
           </SubMenu>
-          <Menu.Item key="signout" icon={<LogoutOutlined />} onClick={signOut}>
-            <a>Signout</a>
+
+          <Menu.Item
+            onClick={() => signOut()}
+            key="signout"
+            icon={<LogoutOutlined />}
+          >
+            <a>Sign out</a>
           </Menu.Item>
         </>
       )}
 
-      <Menu.Item key="theme">
+      <Menu.Item>
         <ToggleTheme />
       </Menu.Item>
     </Menu>

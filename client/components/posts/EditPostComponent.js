@@ -41,13 +41,12 @@ function EditPostComponent({ page = "admin" }) {
   const loadPost = async () => {
     try {
       const { data } = await axios.get(`/post/${router.query.slug}`);
-      console.log("Post form edit", data._id);
+      console.log("Post form edit", data);
       setTitle(data.post.title);
       setContent(data.post.content);
-      xx;
       // setCategories(data.categories);
       setFeatuedImage(data.post.featuredImage);
-      setPostId(data._id);
+      setPostId(data.post._id);
       let arr = [];
       data.post.categories.map((category) => arr.push(category.name));
       setCategories(arr);
@@ -189,7 +188,7 @@ function EditPostComponent({ page = "admin" }) {
       <Modal
         title="Preview"
         centered
-        visible={visible}
+        open={visible}
         onOk={() => setVisible(false)}
         onCancel={() => setVisible(false)}
         width={720}
@@ -204,7 +203,7 @@ function EditPostComponent({ page = "admin" }) {
       </Modal>
       {/* media modal */}
       <Modal
-        visible={media.showMediaModal}
+        open={media.showMediaModal}
         title="Media"
         onOk={() => setMedia({ ...media, showMediaModal: false })}
         onCancel={() => setMedia({ ...media, showMediaModal: false })}

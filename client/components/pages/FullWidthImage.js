@@ -2,7 +2,11 @@ import React from "react";
 import { Button } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import Link from "next/link";
-export default function FullWidthImage() {
+export default function FullWidthImage({
+  title = "CMS",
+  subtitle = "Content Management System",
+  fullWidthImage = "/images/b2.jpg",
+}) {
   return (
     <>
       <img
@@ -12,7 +16,7 @@ export default function FullWidthImage() {
           overflow: "hidden",
           objectFit: "cover",
         }}
-        src="/images/b2.jpg"
+        src={fullWidthImage}
         alt=""
       />
       <div
@@ -24,10 +28,8 @@ export default function FullWidthImage() {
           textShadow: "2px 2px 4px #000000",
         }}
       >
-        <h1 style={{ color: "white" }}>CMS</h1>
-        <p style={{ fontSize: "20px", marginTop: "-110px" }}>
-          Content Management System
-        </p>
+        <h1 style={{ color: "white" }}>{title}</h1>
+        <p style={{ fontSize: "20px", marginTop: "-110px" }}>{subtitle}</p>
         <Link href="/subscriber">
           <a>
             <Button type="primary" size="large" icon={<SendOutlined />}>
