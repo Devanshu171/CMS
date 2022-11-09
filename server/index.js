@@ -9,7 +9,7 @@ import websiteRoutes from "./routes/website";
 const morgan = require("morgan");
 
 const app = express();
-
+const router = express.Router();
 // db connection
 mongoose
   .connect(process.env.DATABASE)
@@ -27,7 +27,9 @@ app.use("/api", authRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", postsRoutes);
 app.use("/api", websiteRoutes);
-
+router.get("/test", (req, res) => {
+  res.status(200).json({ ok: true });
+});
 app.listen(process.env.PORT || 8000, () =>
   console.log("Server running on port 8000")
 );
