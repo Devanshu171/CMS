@@ -30,7 +30,7 @@ export default function FullWidthImage({
       >
         <h1 style={{ color: "white" }}>{title}</h1>
         <p style={{ fontSize: "20px", marginTop: "-110px" }}>{subtitle}</p>
-        <Link href="/subscriber">
+        <Link href="/posts">
           <a>
             <Button type="primary" size="large" icon={<SendOutlined />}>
               Explore
