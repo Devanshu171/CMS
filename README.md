@@ -19,14 +19,33 @@ Take a look at the live <a href="https://client-pi-sandy.vercel.app/" target="_b
 
 ![CMD Demos] (https://res.cloudinary.com/dweca4bjz/video/upload/v1668178053/cms-demos/home_uihilf.mp4)
 
-## HOME PAGE (https://res.cloudinary.com/dweca4bjz/video/upload/v1668178053/cms-demos/home_uihilf.mp4)
+## Home Page
+https://user-images.githubusercontent.com/91886198/201383351-f8c2eeaa-ee98-4996-a789-b64a25404d91.mp4
 
-<div>
-<video width="320" height="240" controls>
-  <source src="[[movie.mp4](https://res.cloudinary.com/dweca4bjz/video/upload/v1668178053/cms-demos/home_uihilf.mp4)](https://res.cloudinary.com/dweca4bjz/video/upload/v1668178053/cms-demos/home_uihilf.mp4)" type="video/mp4">
- 
-  Your browser does not support the video tag.
-</video>
-</div>
-[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/vt5fpE0bzSY)
+## Posts
+https://user-images.githubusercontent.com/91886198/201384863-9bbc22f7-4cdd-4b2f-932f-be6282ee7da6.mp4
+
+## Login Signup 
+https://user-images.githubusercontent.com/91886198/201384970-ee20f99b-6026-499e-9732-65b4119f4a13.mp4
+
+## Admin Dashboard
+https://user-images.githubusercontent.com/91886198/201385065-a2e892fb-0e1d-49d3-a77b-a576ad37da4a.mp4
+
+## Creating New Post
+https://user-images.githubusercontent.com/91886198/201385191-6372fc0e-964c-4a9f-b0ec-5463d52d6440.mp4
+
+## Customizing Home page from dashBoard
+https://user-images.githubusercontent.com/91886198/201385282-f30c825e-ea80-40c7-9026-779f14f01b94.mp4
+
+
+
+
+
+
+
+
+
+
+
+
 
