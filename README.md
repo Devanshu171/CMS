@@ -17,8 +17,7 @@
 
 Take a look at the live <a href="https://client-pi-sandy.vercel.app/" target="_blank">Preview of the app.</a>.
 
-![CMD Demos] (https://res.cloudinary.com/dweca4bjz/video/upload/v1668178053/cms-demos/home_uihilf.mp4)
-
+## DEMO VIDEOS 
 ## Home Page
 https://user-images.githubusercontent.com/91886198/201383351-f8c2eeaa-ee98-4996-a789-b64a25404d91.mp4
 
