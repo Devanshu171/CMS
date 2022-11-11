@@ -8,10 +8,10 @@
 ## 🎓Overview
 
 <div>
-
-	<strong>CMS</strong> is a web application for all kinds of users. User can learn about their <strong>favourite technology through Tutorials posted by authors and admin</strong> .User can <strong>comment</strong> on posts ,<strong> Search</strong> posts throught <strong> category tags</strong>.An user can have 1 one of 3<strong> roles e.i Admin,author or Subscriber</strong> .Each roles has options on their<strong> dashboards</strong> where they can operate on what <strong> allowed for thir role</strong/> . Author and Admin can <strong> create posts</strong> using <strong>feature rich text editor</strong> and <strong>upload image or pick one from cms media library</strong> ( from cloud ). An admin can perform <strong> CRUD operationon on all the posts and Comments where as Author can only on posts they posted  </strong>  . An admin can <strong> Crate ,update any user</strong> e.g change their role etc. CMD comes with <strong> customizable home page  </strong> through admin dashboard e.i can change background, heading, content etc. 
+	<b> CMS </b> is a web application for all kinds of users. User can learn about their <b>favourite technology through Tutorials posted by authors and admin</b> .User can <b>comment</b> on posts ,<b> Search</b> posts throught <b> category tags</b>.An user can have 1 one of 3<b> roles e.i Admin,author or Subscriber</b> .Each roles has options on their<b> dashboards</b> where they can operate on what <b> allowed for thir role</b/> . Author and Admin can <b> create posts</b> using <b>feature rich text editor</b> and <b>upload image or pick one from cms media library</b> ( from cloud ). An admin can perform <b> CRUD operationon on all the posts and Comments where as Author can only on posts they posted  </b>  . An admin can <b> Crate ,update any user</b> e.g change their role etc. CMD comes with <b> customizable home page  </b> through admin dashboard e.i can change background, heading, content etc. 
 
 </div>
+
 
 ## ⏯ Preview
 
