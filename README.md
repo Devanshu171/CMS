@@ -28,5 +28,5 @@ Take a look at the live <a href="https://client-pi-sandy.vercel.app/" target="_b
   Your browser does not support the video tag.
 </video>
 </div>
-
+[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/vt5fpE0bzSY)
 
