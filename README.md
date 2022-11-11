@@ -21,11 +21,12 @@ Take a look at the live <a href="https://client-pi-sandy.vercel.app/" target="_b
 
 ## HOME PAGE (https://res.cloudinary.com/dweca4bjz/video/upload/v1668178053/cms-demos/home_uihilf.mp4)
 
+<div>
 <video width="320" height="240" controls>
   <source src="[[movie.mp4](https://res.cloudinary.com/dweca4bjz/video/upload/v1668178053/cms-demos/home_uihilf.mp4)](https://res.cloudinary.com/dweca4bjz/video/upload/v1668178053/cms-demos/home_uihilf.mp4)" type="video/mp4">
  
   Your browser does not support the video tag.
 </video>
-
+</div>
 
 
